@@ -1,0 +1,9 @@
+# Configuration for the ZWave component
+
+usb_path: /dev/zstick
+network_key: !secret zwave_network_key
+config_path: /home/pi/src/python-openzwave/openzwave/config
+
+device_config_glob:
+  "sensor.*_sourcenodeid":
+    ignored: true

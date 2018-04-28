@@ -1,0 +1,175 @@
+homeassistant:
+# Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secrets home_latitude
+  longitude: !secrets home_longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 170
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Los_Angeles
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  api_password: !secret http_api_password
+  server_port: 443
+  base_url: !secret http_base_url
+  ssl_certificate: !secret http_ssl_certificate
+  ssl_key: !secret http_ssl_key
+
+notify:
+  - name: gmail
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret email
+    encryption: starttls
+    username: !secret email
+    password: !secret password
+    recipient:
+      - !secret email
+    sender_name: My Home Assistant
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+ios:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+#conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+sensor:
+  # Weather prediction
+  - platform: yr
+  # SSL Certificate Monitoring and renewal
+  - platform: command_line
+    name: SSL cert expiry
+    unit_of_measurement: days
+    scan_interval: 86400
+    command: "ssl-cert-check -b -c /etc/letsencrypt/live/hass.veleek.com/cert.pem | awk '{ print $NF }'"
+  
+  # Travel times
+  - platform: google_travel_time
+    name: Ben to Work
+    api_key: !secret ga_api_key
+    origin: !secret home_address
+    destination: !secret work_address
+
+  - platform: google_travel_time
+    name: Home to Work
+    api_key: !secret ga_api_key
+    origin: zone.home
+    destination: !secret work_address
+
+
+shell_command:
+  renew_ssl: /usr/bin/certbot renew --quiet --no-self-upgrade --standalone --preferred-challenges http-01
+
+# Text to speech
+tts:
+  - platform: google
+
+light:
+  - platform: hue
+    host: 192.168.29.192 
+
+lock:
+  - platform: sesame
+    email: !secret email
+    password: !secret sesame_password
+
+nest:
+  client_secret: !secret nest_client_secret
+  client_id: !secret nest_client_id
+
+google_domains:
+  domain: !secret domain
+  username: !secret google_domains_username
+  password: !secret google_domains_password
+
+google_assistant:
+  project_id: !secret ga_project_id
+  client_id: !secret ga_client_id
+  access_token: !secret ga_access_token
+  agent_user_id: !secret ga_agent_user_id
+  api_key: !secret ga_api_key
+  exposed_domains:
+    - switch
+    - light
+    - group
+  entity_config:
+    group.all_automations:
+      expose: false
+    group.all_devices:
+      expose: false
+    group.all_locks:
+      expose: false
+    group.all_switches:
+      expose: false
+    group.all_lights:
+      expose: false
+    group.lights:
+      expose: false
+    group.all_scripts:
+      expose: false
+    light.bedside_light:
+      expose: false
+    light.reading_light:
+      expose: false
+
+zone:
+  - name: Work
+    latitude: !secret work_latitude
+    longitude: !secret work_longitude
+    radius: 200
+    icon: mdi:laptop-windows
+
+cover: 
+  platform: zwave
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+zwave: !include zwave.yaml
+
+logger:
+  default: info  
+#  logs:
+#    homeassistant.components.google_assistant : debug
+#    homeassistant.components.zwave: debug
+#    homeassistant.components.cover: debug
+#    homeassistant.components.climate: debug

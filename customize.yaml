@@ -1,0 +1,110 @@
+media_player.kitchen_home:
+  friendly_name: Google Home
+media_player.home:
+  hidden: true
+sensor.yr_symbol:
+  friendly_name: Weather
+light.bedroom:
+  hidden: true
+light.den:
+  hidden: true
+light.all_hue_lights:
+  hidden: true
+switch.kitchen_light:
+  icon: mdi:lightbulb
+light.living_level:
+  friendly_name: Living Room
+light.entry_level:
+  friendly_name: Entry
+light.dining_level:
+  friendly_name: Dining Room
+climate.dining_room_nest:
+  friendly_name: Nest
+binary_sensor.dining_room_thermostat_nest_fan:
+  friendly_name: Nest Fan
+binary_sensor.dining_room_thermostat_nest_has_leaf:
+  friendly_name: Nest Eco Mode
+sensor.dining_room_thermostat_nest_temperature:
+  friendly_name: Nest Temperature
+  hidden: true
+sensor.dining_room_thermostat_nest_humidity:
+  friendly_name: Nest Humidity
+binary_sensor.dining_room_thermostat_nest_online:
+  friendly_name: Nest Online
+  hidden: true
+binary_sensor.dining_room_thermostat_nest_is_using_emergency_heat:
+  friendly_name: Nest Emergency Heat
+  hidden: true
+sensor.dining_room_thermostat_nest_hvac_state:
+  friendly_name: Nest HVAC State
+sensor.dining_room_thermostat_nest_operation_mode:
+  friendly_name: Nest Mode
+  hidden: true
+binary_sensor.dining_room_thermostat_nest_is_locked:
+  friendly_name: Nest Locked
+sensor.dining_room_thermostat_nest_target:
+  friendly_name: Nest Target
+  hidden: true
+sensor.entrysensor_sourcenodeid:
+  hidden: true
+sensor.entrysensor_alarm_level:
+  friendly_name: Entry Alarm Level
+  hidden: true
+zwave.frontdoor_sensor:
+  friendly_name: Front Door Sensor
+sensor.frontdoor_access_control:
+  friendly_name: Front Door Access Control
+sensor.frontdoor_burglar:
+  friendly_name: Front Door Tamper
+sensor.frontdoor_sourcenodeid:
+  friendly_name: Front Door NodeId
+sensor.frontdoor_alarm_level:
+  friendly_name: Front Door Alarm Level
+sensor.frontdoor_alarm_type:
+  friendly_name: Front Door Alarm Type
+binary_sensor.frontdoor_sensor_sensor:
+  friendly_name: Front Door Sensor Sensor
+  hidden: true
+zwave.garage_door_opener:
+  friendly_name: Garage Door Opener
+sensor.garage_sourcenodeid:
+  friendly_name: Garage NodeId
+sensor.garage_access_control:
+  friendly_name: Garage Access Control
+sensor.garage_alarm_level:
+  friendly_name: Garage Alarm Level
+sensor.garage_alarm_type:
+  friendly_name: Garage Alarm Type
+sensor.garage_burglar:
+  friendly_name: Garage Burglar
+binary_sensor.garage_sensor:
+  friendly_name: Garage Sensor
+zwave.aeotec_zw100_multisensor_6:
+  friendly_name: Entry Sensor
+  node_name: Entry Sensor
+zwave.aeotec_zw090_zstick_gen5_us:
+  friendly_name: ZW090 Z-Stick Gen5
+zwave.hank_hkzwdws01_doorwindow_sensor:
+  friendly_name: Front Door Sensor
+zwave.ge_14292_inwall_smart_toggle_switch:
+  friendly_name: Kitchen Main Lights
+zwave.linear_gd00z4_garage_door_opener_remote_controller:
+  friendly_name: Garage Door Opener
+zwave.ge_14295_inwall_smart_toggle_dimmer_3:
+  friendly_name: Entry Light Switch
+zwave.ge_14295_inwall_smart_toggle_dimmer_2:
+  friendly_name: Living Room Main Light Switch
+zwave.ge_14295_inwall_smart_toggle_dimmer:
+  friendly_name: Dining Room Light Switch
+sensor.alarm_level:
+  friendly_name: Front Door Alarm Level
+sensor.alarm_type:
+  friendly_name: Front Door Alarm Type
+sensor.entrysensor_alarm_type:
+  friendly_name: Entry Alarm Type
+sensor.entrysensor_burglar:
+  friendly_name: Entry Burglar
+binary_sensor.entrysensor_sensor:
+  friendly_name: Entry Sensor
+sensor.entrysensor_ultraviolet:
+  friendly_name: Entry Ultraviolet

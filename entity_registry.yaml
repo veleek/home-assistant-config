@@ -1,0 +1,140 @@
+climate.dining_room_nest:
+  name:
+  platform: nest
+  unique_id: 2k6PMkuE_MTi-bSwa5UexrRBg9y_AeAp
+binary_sensor.entrysensor_sensor:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076463104
+sensor.entrysensor_temperature:
+  name: Entry Temp
+  platform: zwave
+  unique_id: 2-72057594076479506
+sensor.entrysensor_luminance:
+  name: Entry Luminance
+  platform: zwave
+  unique_id: 2-72057594076479538
+sensor.entrysensor_relative_humidity:
+  name: Entry Humidity
+  platform: zwave
+  unique_id: 2-72057594076479570
+sensor.entrysensor_ultraviolet:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076479922
+sensor.entrysensor_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 2-72057594077528065
+sensor.entrysensor_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 2-72057594077528081
+sensor.entrysensor_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 2-72057594077528097
+sensor.entrysensor_burglar:
+  name:
+  platform: zwave
+  unique_id: 2-72057594077528225
+light.dining_level:
+  name:
+  platform: zwave
+  unique_id: 9-72057594193739777
+light.living_level:
+  name:
+  platform: zwave
+  unique_id: 10-72057594210516993
+light.entry_level:
+  name:
+  platform: zwave
+  unique_id: 13-72057594260848641
+sensor.garage_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 14-72057594278854657
+sensor.garage_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 14-72057594278854673
+sensor.garage_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 14-72057594278854689
+sensor.garage_access_control:
+  name:
+  platform: zwave
+  unique_id: 14-72057594278854801
+sensor.garage_burglar:
+  name:
+  platform: zwave
+  unique_id: 14-72057594278854817
+light.reading_light:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:1f:00:76-0b
+light.bedside_light:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:1e:0f:fc-0b
+sensor.bens_traitor_phone_battery_level:
+  name:
+  platform: ios
+  unique_id: level_bens_traitor_phone
+sensor.bens_traitor_phone_battery_state:
+  name:
+  platform: ios
+  unique_id: state_bens_traitor_phone
+binary_sensor.garage_sensor:
+  name:
+  platform: zwave
+  unique_id: 14-72057594277789696
+media_player.tv:
+  name: Chromecast
+  platform: cast
+  unique_id: 704490f2-213b-949c-01a6-bff2cdcdc9c0
+media_player.kitchen:
+  name:
+  platform: cast
+  unique_id: c17db0fc-6cbb-0b81-cb88-e40958d63700
+media_player.den:
+  name: Den
+  platform: cast
+  unique_id: 5cc71811-3d1c-a6fb-37de-4642eca27da6
+media_player.home:
+  name: Kitchen Google Home
+  platform: cast
+  unique_id: 22e614d4-4c79-42d3-9810-d829d0831076
+media_player.bedroom_speaker:
+  name: Bedroom
+  platform: cast
+  unique_id: e035a18b-c815-f24f-95e8-aa277400ec8e
+switch.kitchen_light:
+  name: Kitchen
+  platform: zwave
+  unique_id: 18-72057594344718336
+sensor.alarm_type:
+  name:
+  platform: zwave
+  unique_id: 19-72057594362740737
+sensor.alarm_level:
+  name:
+  platform: zwave
+  unique_id: 19-72057594362740753
+binary_sensor.frontdoor_sensor_sensor:
+  name:
+  platform: zwave
+  unique_id: 19-72057594361675776
+sensor.frontdoor_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 19-72057594362740769
+sensor.frontdoor_access_control:
+  name:
+  platform: zwave
+  unique_id: 19-72057594362740881
+sensor.frontdoor_burglar:
+  name:
+  platform: zwave
+  unique_id: 19-72057594362740897

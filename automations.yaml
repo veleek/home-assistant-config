@@ -1,0 +1,71 @@
+- id: motion_sensor_turns_on_light
+  alias: Motion sensor turns on light
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.entrysensor_burglar
+    above: '0'
+  action:
+    service: homeassistant.turn_on
+    data:
+      entity_id: light.entry_level
+- id: motion_sensor_turns_off_light
+  alias: Motion sensor turns off light
+  trigger:
+    platform: state
+    entity_id: sensor.entrysensor_burglar
+    to: '0'
+    for:
+      minutes: 1
+  action:
+    service: homeassistant.turn_off
+    data:
+      entity_id: light.entry_level
+- id: turn_off_bedside_light_after_15_minutes
+  alias: Turn off bedside light after 15 minutes
+  trigger:
+  - entity_id: light.bedside_light
+    for:
+      minutes: 15
+    platform: state
+    to: 'on'
+  action:
+  - data:
+      entity_id: light.bedside_light
+    service: light.turn_off
+  condition:
+  - after: '22:00:00'
+    before: '20:00:00'
+    condition: time
+- id: turn_off_reading_light
+  alias: Turn off Reading Light after 5 seconds
+  initial_state: false
+  trigger:
+    platform: numeric_state
+    entity_id: light.reading_light
+    value_template: '{{state.attributes.brightness}}'
+    above: 0
+    for:
+      seconds: 5
+  action:
+    service: light.turn_off
+    data:
+      entity_id: light.reading_light
+- id: auto_renew_ssl
+  alias: Auto Renew SSL Cert
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.ssl_cert_expiry
+    below: 30
+  action:
+    service: shell_command.renew_ssl
+- id: ssl_expiry_notification
+  alias: SSL expiry notification
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.ssl_cert_expiry
+    below: 21
+  action:
+    service: notify.gmail
+    data:
+      message: Warning - SSL certificate expires in 21 days and has not been automatically
+        renewed
