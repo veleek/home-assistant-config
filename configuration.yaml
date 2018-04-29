@@ -2,8 +2,8 @@ homeassistant:
 # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: !secrets home_latitude
-  longitude: !secrets home_longitude
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 170
   # metric for Metric, imperial for Imperial
@@ -105,7 +105,21 @@ tts:
 
 light:
   - platform: hue
-    host: 192.168.29.192 
+    host: 192.168.29.192
+  - platform: template
+    lights:
+      kitchen_light:
+        friendly_name: Kitchen Light
+        turn_on:
+          service: switch.turn_on
+          data:
+            entity_id: switch.kitchen_switch
+        turn_off:
+          service: switch.turn_off
+          data:
+            entity_id: switch.kitchen_switch
+        level_template: '{% if is_state("switch.kitchen_switch", "on") %}255{%else %}0{%endif%}'
+        value_template: '{{ is_state("switch.kitchen_switch", "on") }}'
 
 lock:
   - platform: sesame
@@ -130,25 +144,13 @@ google_assistant:
   exposed_domains:
     - switch
     - light
-    - group
   entity_config:
-    group.all_automations:
-      expose: false
-    group.all_devices:
-      expose: false
-    group.all_locks:
-      expose: false
-    group.all_switches:
-      expose: false
-    group.all_lights:
-      expose: false
-    group.lights:
-      expose: false
-    group.all_scripts:
-      expose: false
     light.bedside_light:
       expose: false
     light.reading_light:
+      expose: false
+    # The kitchen lights are exposed as a light, not as a switch so ignore this.
+    switch.kitchen_switch: 
       expose: false
 
 zone:
@@ -160,6 +162,12 @@ zone:
 
 cover: 
   platform: zwave
+
+homekit:
+  auto_start: False
+  filter:
+    include_domains:
+      - light
 
 group: !include groups.yaml
 automation: !include automations.yaml

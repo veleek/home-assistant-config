@@ -10,8 +10,6 @@ light.den:
   hidden: true
 light.all_hue_lights:
   hidden: true
-switch.kitchen_light:
-  icon: mdi:lightbulb
 light.living_level:
   friendly_name: Living Room
 light.entry_level:
@@ -108,3 +106,5 @@ binary_sensor.entrysensor_sensor:
   friendly_name: Entry Sensor
 sensor.entrysensor_ultraviolet:
   friendly_name: Entry Ultraviolet
+switch.kitchen_switch:
+  hidden: true

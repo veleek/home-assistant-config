@@ -110,7 +110,7 @@ media_player.bedroom_speaker:
   name: Bedroom
   platform: cast
   unique_id: e035a18b-c815-f24f-95e8-aa277400ec8e
-switch.kitchen_light:
+switch.kitchen_switch:
   name: Kitchen
   platform: zwave
   unique_id: 18-72057594344718336

@@ -69,3 +69,10 @@
     data:
       message: Warning - SSL certificate expires in 21 days and has not been automatically
         renewed
+
+- alias: 'Start HomeKit'
+  trigger:
+    - platform: event
+      event_type: zwave.network_ready
+  action:
+    - service: homekit.start

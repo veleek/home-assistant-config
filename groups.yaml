@@ -7,7 +7,7 @@ lights:
     - light.entry_level
     - light.reading_light
     - light.bedside_light
-    - switch.kitchen_light
+    - light.kitchen_light
 
 travel:
   name: Travel
