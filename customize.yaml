@@ -16,33 +16,6 @@ light.entry_level:
   friendly_name: Entry
 light.dining_level:
   friendly_name: Dining Room
-climate.dining_room_nest:
-  friendly_name: Nest
-binary_sensor.dining_room_thermostat_nest_fan:
-  friendly_name: Nest Fan
-binary_sensor.dining_room_thermostat_nest_has_leaf:
-  friendly_name: Nest Eco Mode
-sensor.dining_room_thermostat_nest_temperature:
-  friendly_name: Nest Temperature
-  hidden: true
-sensor.dining_room_thermostat_nest_humidity:
-  friendly_name: Nest Humidity
-binary_sensor.dining_room_thermostat_nest_online:
-  friendly_name: Nest Online
-  hidden: true
-binary_sensor.dining_room_thermostat_nest_is_using_emergency_heat:
-  friendly_name: Nest Emergency Heat
-  hidden: true
-sensor.dining_room_thermostat_nest_hvac_state:
-  friendly_name: Nest HVAC State
-sensor.dining_room_thermostat_nest_operation_mode:
-  friendly_name: Nest Mode
-  hidden: true
-binary_sensor.dining_room_thermostat_nest_is_locked:
-  friendly_name: Nest Locked
-sensor.dining_room_thermostat_nest_target:
-  friendly_name: Nest Target
-  hidden: true
 sensor.entrysensor_sourcenodeid:
   hidden: true
 sensor.entrysensor_alarm_level:
@@ -107,4 +80,39 @@ binary_sensor.entrysensor_sensor:
 sensor.entrysensor_ultraviolet:
   friendly_name: Entry Ultraviolet
 switch.kitchen_switch:
+  hidden: true
+climate.dining_room_nest:
+  friendly_name: Nest
+binary_sensor.dining_room_thermostat_fan:
+  friendly_name: Nest Fan
+binary_sensor.dining_room_thermostat_has_leaf:
+  friendly_name: Nest Eco Mode
+  hidden: true
+sensor.dining_room_thermostat_temperature:
+  friendly_name: Nest Temperature
+  hidden: true
+sensor.dining_room_thermostat_humidity:
+  friendly_name: Nest Humidity
+binary_sensor.dining_room_thermostat_online:
+  friendly_name: Nest Online
+  hidden: true
+binary_sensor.dining_room_thermostat_is_using_emergency_heat:
+  friendly_name: Nest Emergency Heat
+  hidden: true
+sensor.dining_room_thermostat_hvac_state:
+  friendly_name: Nest HVAC State
+sensor.dining_room_thermostat_operation_mode:
+  friendly_name: Nest Mode
+  hidden: true
+binary_sensor.dining_room_thermostat_is_locked:
+  friendly_name: Nest Locked
+  hidden: true
+sensor.dining_room_thermostat_target:
+  friendly_name: Nest Target
+  hidden: true
+light.living_room:
+  friendly_name: Living Room All
+  hidden: true
+light.master:
+  friendly_name: Master Room
   hidden: true

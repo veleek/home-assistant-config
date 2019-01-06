@@ -83,17 +83,17 @@ sensor:
     command: "ssl-cert-check -b -c /etc/letsencrypt/live/hass.veleek.com/cert.pem | awk '{ print $NF }'"
   
   # Travel times
-  - platform: google_travel_time
-    name: Ben to Work
-    api_key: !secret ga_api_key
-    origin: !secret home_address
-    destination: !secret work_address
+  #- platform: google_travel_time
+  #  name: Ben to Work
+  #  api_key: !secret ga_api_key
+  #  origin: !secret home_address
+  #  destination: !secret work_address
 
-  - platform: google_travel_time
-    name: Home to Work
-    api_key: !secret ga_api_key
-    origin: zone.home
-    destination: !secret work_address
+  #- platform: google_travel_time
+  #  name: Home to Work
+  #  api_key: !secret ga_api_key
+  #  origin: zone.home
+  #  destination: !secret work_address
 
 
 shell_command:
@@ -137,9 +137,6 @@ google_domains:
 
 google_assistant:
   project_id: !secret ga_project_id
-  client_id: !secret ga_client_id
-  access_token: !secret ga_access_token
-  agent_user_id: !secret ga_agent_user_id
   api_key: !secret ga_api_key
   exposed_domains:
     - switch
@@ -160,9 +157,6 @@ zone:
     radius: 200
     icon: mdi:laptop-windows
 
-cover: 
-  platform: zwave
-
 homekit:
   auto_start: False
   filter:
@@ -173,6 +167,13 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 zwave: !include zwave.yaml
+
+cover: 
+  - platform: zwave
+    device_class: garage
+
+lovelace:
+  mode: yaml
 
 logger:
   default: info  

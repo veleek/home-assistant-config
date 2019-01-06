@@ -23,11 +23,11 @@
 - id: turn_off_bedside_light_after_15_minutes
   alias: Turn off bedside light after 15 minutes
   trigger:
-  - entity_id: light.bedside_light
-    for:
-      minutes: 15
-    platform: state
-    to: 'on'
+    - entity_id: light.bedside_light
+      platform: state
+      to: 'on'
+      for:
+        minutes: 30
   action:
   - data:
       entity_id: light.bedside_light
@@ -39,13 +39,14 @@
 - id: turn_off_reading_light
   alias: Turn off Reading Light after 5 seconds
   initial_state: false
+  condition: 
+    - condition: numeric_state
+      entity_id: light.reading_light
+      value_template: '{{state.attributes.brightness}}'
+      above: 0
   trigger:
-    platform: numeric_state
-    entity_id: light.reading_light
-    value_template: '{{state.attributes.brightness}}'
-    above: 0
-    for:
-      seconds: 5
+    platform: time
+    seconds: '/5'
   action:
     service: light.turn_off
     data:
@@ -76,3 +77,17 @@
       event_type: zwave.network_ready
   action:
     - service: homekit.start
+
+# Hue lights will automatically turn on if there is a power outage so turn them 
+# all off by default when HASS restarts so they don't get stuck in the on state.
+- alias: 'Turn off Hue Lights'
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: homeassistant.turn_off
+      data:
+        entity_id: light.bedside_light
+    - service: homeassistant.turn_off
+      data:
+        entity_id: light.reading_light

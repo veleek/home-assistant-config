@@ -1,0 +1,112 @@
+title: Bear Creek
+
+resources: 
+  - url: /local/mini-media-player-bundle.js?v=0.9.8
+    type: module
+  - url: /local/monster-card.js?v=1
+    type: module
+
+views:
+  - title: New
+    icon: mdi:test-tube
+    cards:
+      - type: thermostat
+        title: Climate
+        entity: climate.dining_room_nest
+      - type: entities
+        title: Lock
+        entities:
+          - lock.home
+      - type: entities
+        title: Lights
+        entities:
+          - light.bedside_light
+          - light.dining_level
+          - light.entry_level
+          - light.kitchen_light
+          - light.living_level
+          - light.living_room
+          - light.master
+          - light.office2_level
+          - light.reading_light
+      - type: vertical-stack
+        cards:
+          - type: custom:mini-media-player
+            entity: media_player.den
+          - type: custom:mini-media-player
+            entity: media_player.bedroom_speaker
+          - type: custom:mini-media-player
+            entity: media_player.kitchen_display
+          - type: custom:mini-media-player
+            entity: media_player.home
+
+  - title: Details
+    path: details
+    cards: 
+      - type: entities
+        title: Automations
+        show_header_toggle: true
+        entities:
+          - automation.auto_renew_ssl_cert
+          - automation.motion_sensor_turns_off_light
+          - automation.motion_sensor_turns_on_light
+          - automation.ssl_expiry_notification
+          - automation.start_homekit
+          - automation.turn_off_bedside_light_after_15_minutes
+          - automation.turn_off_reading_light_after_5_seconds
+      - type: entities
+        title: Sensors
+        entities:
+          - binary_sensor.bear_creek_house_away
+          - binary_sensor.dining_room_thermostat_fan
+          - binary_sensor.dining_room_thermostat_has_leaf
+          - binary_sensor.dining_room_thermostat_is_locked
+          - binary_sensor.dining_room_thermostat_is_using_emergency_heat
+          - binary_sensor.dining_room_thermostat_online
+          - binary_sensor.entrysensor_sensor
+          - binary_sensor.entryway_camera_motion_detected
+          - binary_sensor.entryway_camera_online
+          - binary_sensor.entryway_camera_person_detected
+          - binary_sensor.entryway_camera_sound_detected
+          - binary_sensor.frontdoor_sensor_sensor
+          - binary_sensor.garage_sensor
+          - sensor.alarm_level
+          - sensor.alarm_type
+          - sensor.bear_creek_house_eta
+          - sensor.bear_creek_house_security_state
+          - sensor.bens_traitor_phone_battery_level
+          - sensor.bens_traitor_phone_battery_state
+          - sensor.dining_room_thermostat_humidity
+          - sensor.dining_room_thermostat_hvac_state
+          - sensor.dining_room_thermostat_operation_mode
+          - sensor.dining_room_thermostat_target
+          - sensor.dining_room_thermostat_temperature
+          - sensor.entrysensor_alarm_level
+          - sensor.entrysensor_alarm_type
+          - sensor.entrysensor_burglar
+          - sensor.entrysensor_luminance
+          - sensor.entrysensor_relative_humidity
+          - sensor.entrysensor_temperature
+          - sensor.entrysensor_ultraviolet
+          - sensor.frontdoor_access_control
+          - sensor.frontdoor_burglar
+          - sensor.garage_access_control
+          - sensor.garage_alarm_level
+          - sensor.garage_alarm_type
+          - sensor.garage_burglar
+          - sensor.ssl_cert_expiry
+          - sensor.veleeks_ipad_battery_level
+          - sensor.veleeks_ipad_battery_state
+          - sensor.yr_symbol
+      - type: entities
+        title: ZWave Nodes
+        entities:
+          - zwave.aeotec_zw090_zstick_gen5_us
+          - zwave.aeotec_zw100_multisensor_6
+          - zwave.frontdoor_sensor
+          - zwave.ge_14292_inwall_smart_toggle_switch
+          - zwave.ge_14295_inwall_smart_toggle_dimmer
+          - zwave.ge_14295_inwall_smart_toggle_dimmer_2
+          - zwave.ge_14295_inwall_smart_toggle_dimmer_3
+          - zwave.linear_gd00z4_garage_door_opener_remote_controller
+          - zwave.office_light_switch
