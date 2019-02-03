@@ -45,7 +45,7 @@
       value_template: '{{state.attributes.brightness}}'
       above: 0
   trigger:
-    platform: time
+    platform: time_pattern
     seconds: '/5'
   action:
     service: light.turn_off

@@ -13,10 +13,22 @@ views:
       - type: thermostat
         title: Climate
         entity: climate.dining_room_nest
+      - type: history-graph
+        title: Temperature History
+        hours_to_show: 12
+        entities:
+          - sensor.dining_room_thermostat_temperature
+          - sensor.entrysensor_temperature
+          - sensor.aeotec_zw100_multisensor_6_temperature
+          - sensor.dining_room_thermostat_target
+         # - climate.dining_room_nest.target_temp_high
+         # - climate.dining_room_nest.target_temp_low
       - type: entities
-        title: Lock
+        title: Security
+        show_header_toggle: false
         entities:
           - lock.home
+          - cover.garage_door_barrier_state
       - type: entities
         title: Lights
         entities:
@@ -25,9 +37,7 @@ views:
           - light.entry_level
           - light.kitchen_light
           - light.living_level
-          - light.living_room
-          - light.master
-          - light.office2_level
+          - light.office_level
           - light.reading_light
       - type: vertical-stack
         cards:
@@ -39,7 +49,9 @@ views:
             entity: media_player.kitchen_display
           - type: custom:mini-media-player
             entity: media_player.home
-
+      - type: picture-entity
+        title: Cameras
+        entity: camera.entryway
   - title: Details
     path: details
     cards: 

@@ -23,7 +23,6 @@ frontend:
 config:
 
 http:
-  api_password: !secret http_api_password
   server_port: 443
   base_url: !secret http_base_url
   ssl_certificate: !secret http_ssl_certificate
@@ -149,6 +148,10 @@ google_assistant:
     # The kitchen lights are exposed as a light, not as a switch so ignore this.
     switch.kitchen_switch: 
       expose: false
+    light.living_room:
+      expose: false
+    light.master:
+      expose: false
 
 zone:
   - name: Work
@@ -177,8 +180,17 @@ lovelace:
 
 logger:
   default: info  
-#  logs:
-#    homeassistant.components.google_assistant : debug
-#    homeassistant.components.zwave: debug
-#    homeassistant.components.cover: debug
-#    homeassistant.components.climate: debug
+  logs:
+    # Filtering out a bunch of extra noise we don't want
+    homeassistant.setup: warn
+    homeassistant.loader: warn
+    homeassistant.components.http: warn
+
+    # We never want debug for this
+    homeassistant.components.websocket_api: info
+
+    # Some extra info for ZWave stuff
+    homeassistant.components.zwave: debug
+    homeassistant.components.zwave.util: info
+    openzwave: warn
+    libopenzwave: warn
