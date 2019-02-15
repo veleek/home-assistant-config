@@ -28,20 +28,6 @@ http:
   ssl_certificate: !secret http_ssl_certificate
   ssl_key: !secret http_ssl_key
 
-notify:
-  - name: gmail
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret email
-    encryption: starttls
-    username: !secret email
-    password: !secret password
-    recipient:
-      - !secret email
-    sender_name: My Home Assistant
-
 # Checks for available updates
 # Note: This component will send some information about your system to
 # the developers to assist with development of Home Assistant.
@@ -140,6 +126,7 @@ google_assistant:
   exposed_domains:
     - switch
     - light
+    - cover
   entity_config:
     light.bedside_light:
       expose: false
@@ -166,6 +153,21 @@ homekit:
     include_domains:
       - light
 
+telegram_bot:
+  - platform: webhooks
+    api_key: !secret telegram_key
+    allowed_chat_ids:
+      - !secret telegram_ben_id
+      - !secret telegram_katie_id
+    trusted_networks:
+      - 149.154.167.197/32
+      - 149.154.167.198/31
+      - 149.154.167.200/29
+      - 149.154.167.208/28
+      - 149.154.167.224/29
+      - 149.154.167.232/31
+      - 192.168.29.0/24
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
@@ -177,6 +179,23 @@ cover:
 
 lovelace:
   mode: yaml
+
+notify:
+#  - name: gmail
+#    platform: smtp
+#    server: smtp.gmail.com
+#    port: 587
+#    timeout: 15
+#    sender: !secret email
+#    encryption: starttls
+#    username: !secret email
+#    password: !secret password
+#    recipient:
+#      - !secret email
+#    sender_name: My Home Assistant
+  - name: telegram_ben
+    platform: telegram
+    chat_id: !secret telegram_ben_id
 
 logger:
   default: info  

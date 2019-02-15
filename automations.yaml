@@ -23,11 +23,11 @@
 - id: turn_off_bedside_light_after_15_minutes
   alias: Turn off bedside light after 15 minutes
   trigger:
-    - entity_id: light.bedside_light
-      platform: state
-      to: 'on'
-      for:
-        minutes: 30
+  - entity_id: light.bedside_light
+    platform: state
+    to: 'on'
+    for:
+      minutes: 30
   action:
   - data:
       entity_id: light.bedside_light
@@ -39,14 +39,14 @@
 - id: turn_off_reading_light
   alias: Turn off Reading Light after 5 seconds
   initial_state: false
-  condition: 
-    - condition: numeric_state
-      entity_id: light.reading_light
-      value_template: '{{state.attributes.brightness}}'
-      above: 0
+  condition:
+  - condition: numeric_state
+    entity_id: light.reading_light
+    value_template: '{{state.attributes.brightness}}'
+    above: 0
   trigger:
     platform: time_pattern
-    seconds: '/5'
+    seconds: /5
   action:
     service: light.turn_off
     data:
@@ -66,28 +66,137 @@
     entity_id: sensor.ssl_cert_expiry
     below: 21
   action:
-    service: notify.gmail
+    service: notify.telegram_ben
     data:
       message: Warning - SSL certificate expires in 21 days and has not been automatically
         renewed
-
-- alias: 'Start HomeKit'
+- alias: Start HomeKit
   trigger:
-    - platform: event
-      event_type: zwave.network_ready
+  - platform: event
+    event_type: zwave.network_ready
   action:
-    - service: homekit.start
-
-# Hue lights will automatically turn on if there is a power outage so turn them 
-# all off by default when HASS restarts so they don't get stuck in the on state.
-- alias: 'Turn off Hue Lights'
+  - service: homekit.start
+  id: f8c1b72097264b11835a9b460b684a53
+- alias: Turn off Hue Lights
   trigger:
-    - platform: homeassistant
-      event: start
+  - platform: homeassistant
+    event: start
   action:
-    - service: homeassistant.turn_off
+  - service: homeassistant.turn_off
+    data:
+      entity_id: light.bedside_light
+  - service: homeassistant.turn_off
+    data:
+      entity_id: light.reading_light
+  id: 98131667ee0c455ea8a64da29ac27723
+- id: office_light_on
+  alias: Office Light is On
+  trigger:
+  - platform: state
+    entity_id: light.office_level
+    to: 'on'
+    for:
+      seconds: 2
+  action:
+  - service: notify.telegram_ben
+    data:
+      message: You should turn it off
+      title: The office light is *still* on!
       data:
-        entity_id: light.bedside_light
-    - service: homeassistant.turn_off
+        inline_keyboard:
+          - 'Close Garage:/close cover.garage_door_barrier_state'
+          - '/close cover.garage_door_barrier_state'
+          - '/turn_off light.office_level, /turn_on light.office_level'
+          - 'Light Off:/turn_off light.office_level, Light On:/turn_on light.office_level'
+  initial_state: false
+- id: garage_door_open
+  alias: Garage Door is Open
+  trigger:
+  - platform: state
+    entity_id: cover.garage_door_barrier_state
+    to: 'open'
+    for:
+      minutes: 30
+  action:
+  - service: notify.telegram_ben
+    data:
+      message: The garage door has been open for 30 minutes.
+      title: Garage Door is Open
       data:
-        entity_id: light.reading_light
+        keyboard:
+          - '/close cover.garage_door_barrier_state'
+          - '/close cover.garage_door_barrier_state'
+  initial_state: false
+
+- id: telegram_close_command
+  alias: Telegram Close Command
+  trigger:
+  - platform: event 
+    event_type: telegram_command
+    event_data:
+      command: /close
+  action:
+  - service: cover.close_cover
+    data_template:
+      entity_id: '{{ trigger.event.data.args[0] }}'
+- id: telegram_open_command
+  alias: Telegram Open Command
+  trigger:
+  - platform: event 
+    event_type: telegram_command
+    event_data:
+      command: /open
+  action:
+  - service: cover.open_cover
+    data_template:
+      entity_id: '{{ trigger.event.data.args[0] }}'
+
+- id: telegram_off_command
+  alias: Telegram Off Command
+  trigger:
+  - platform: event 
+    event_type: telegram_command
+    event_data:
+      command: /turn_off
+  action:
+  - service: homeassistant.turn_off
+    data_template:
+      entity_id: '{{ trigger.event.data.args[0] }}'
+- id: telegram_off_callback
+  alias: Telegram Off Callback
+  trigger:
+  - platform: event 
+    event_type: telegram_callback
+    event_data:
+      command: /turn_off
+  action:
+  - service: notify.telegram_ben
+    data_template:
+      message: ' Some stuff {{ trigger.event.data.data|replace("_", "\_") }}. '
+
+- id: telegram_on_command
+  alias: Telegram On Command
+  trigger:
+  - platform: event 
+    event_type: telegram_command
+    event_data:
+      command: /turn_on
+  action:
+  - service: homeassistant.turn_on
+    data_template:
+      entity_id: '{{ trigger.event.data.args[0] }}'
+#- id: telegram_on_callback
+#  alias: Telegram On Callback
+#  trigger:
+#  - platform: event 
+#    event_type: telegram_callback
+#    event_data:
+#      command: /turn_on
+#  action:
+#  - service: homeassistant.turn_on
+#    data_template:
+#      entity_id: '{{ trigger.event.data.args[0] }}'
+# Note: When using telegram notifications, invalid markup (e.g. an underscore or star) will result in an error.
+#  - service: notify.telegram_ben
+#    data_template:
+#      message: 'Send a message {{ trigger.event.data.args[0]|replace("_", "\_") }} stuff...'
