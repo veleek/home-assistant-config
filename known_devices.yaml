@@ -1,0 +1,26 @@
+
+ben:
+  hide_if_away: false
+  icon:
+  mac:
+  name: ben
+  picture:
+  track: true
+  vendor:
+
+keys:
+  hide_if_away: false
+  icon:
+  mac:
+  name: keys
+  picture:
+  track: true
+  vendor:
+
+bens_traitor_phone:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Ben's Traitor Phone
+  picture:
+  track: true
