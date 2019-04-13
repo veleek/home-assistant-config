@@ -22,6 +22,8 @@ frontend:
 # Enables configuration UI
 config:
 
+system_health:
+
 http:
   server_port: 443
   base_url: !secret http_base_url
@@ -66,6 +68,17 @@ sensor:
     unit_of_measurement: days
     scan_interval: 86400
     command: "ssl-cert-check -b -c /etc/letsencrypt/live/hass.veleek.com/cert.pem | awk '{ print $NF }'"
+
+binary_sensor:
+  # A sensor that indicates whether or not it is currently shortly before sunset
+  # or shortly after sunrise.  This is used by the garage door automations to 
+  # automatically shut the door at night.
+  - platform: tod
+    name: Nighttime
+    after: sunset
+    after_offset: '-00:30'
+    before: sunrise
+    before_offset: '00:30'
   
   # Travel times
   #- platform: google_travel_time
@@ -204,12 +217,13 @@ logger:
     homeassistant.setup: warn
     homeassistant.loader: warn
     homeassistant.components.http: warn
+    pyhap: warn
 
     # We never want debug for this
     homeassistant.components.websocket_api: info
 
     # Some extra info for ZWave stuff
-    homeassistant.components.zwave: debug
+    homeassistant.components.zwave: info
     homeassistant.components.zwave.util: info
     openzwave: warn
     libopenzwave: warn

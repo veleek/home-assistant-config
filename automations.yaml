@@ -100,14 +100,11 @@
   action:
   - service: notify.telegram_ben
     data:
-      message: You should turn it off
-      title: The office light is *still* on!
+      message: The office light is on.
       data:
         inline_keyboard:
-          - 'Close Garage:/close cover.garage_door_barrier_state'
-          - '/close cover.garage_door_barrier_state'
-          - '/turn_off light.office_level, /turn_on light.office_level'
-          - 'Light Off:/turn_off light.office_level, Light On:/turn_on light.office_level'
+          - 'Turn Off:/call_service homeassistant.turn_off light.office_level'
+          - 'Turn On:/call_service homeassistant.turn_on light.office_level'
   initial_state: false
 - id: garage_door_open
   alias: Garage Door is Open
@@ -121,82 +118,52 @@
   - service: notify.telegram_ben
     data:
       message: The garage door has been open for 30 minutes.
-      title: Garage Door is Open
       data:
-        keyboard:
-          - '/close cover.garage_door_barrier_state'
-          - '/close cover.garage_door_barrier_state'
-  initial_state: false
-
-- id: telegram_close_command
-  alias: Telegram Close Command
+        inline_keyboard:
+          - 'Close Garage:/call_service cover.close_cover cover.garage_door_barrier_state'
+          
+- id: close_garage_door_at_night
+  alias: Close Garage at Night
   trigger:
-  - platform: event 
-    event_type: telegram_command
-    event_data:
-      command: /close
-  action:
-  - service: cover.close_cover
-    data_template:
-      entity_id: '{{ trigger.event.data.args[0] }}'
-- id: telegram_open_command
-  alias: Telegram Open Command
-  trigger:
-  - platform: event 
-    event_type: telegram_command
-    event_data:
-      command: /open
-  action:
-  - service: cover.open_cover
-    data_template:
-      entity_id: '{{ trigger.event.data.args[0] }}'
-
-- id: telegram_off_command
-  alias: Telegram Off Command
-  trigger:
-  - platform: event 
-    event_type: telegram_command
-    event_data:
-      command: /turn_off
-  action:
-  - service: homeassistant.turn_off
-    data_template:
-      entity_id: '{{ trigger.event.data.args[0] }}'
-- id: telegram_off_callback
-  alias: Telegram Off Callback
-  trigger:
-  - platform: event 
-    event_type: telegram_callback
-    event_data:
-      command: /turn_off
+  - platform: state
+    entity_id: cover.garage_door_barrier_state
+    to: 'open'
+    for:
+      minutes: 60
+  condition:
+  - condition: state
+    entity_id: binary_sensor.nighttime
+    state: 'on'
   action:
   - service: notify.telegram_ben
-    data_template:
-      message: ' Some stuff {{ trigger.event.data.data|replace("_", "\_") }}. '
+    data:
+      message: It's nighttime and the garage door has been open for an hour.
+      data:
+        inline_keyboard:
+          - 'Close Garage:/call_service cover.close_cover cover.garage_door_barrier_state'
 
-- id: telegram_on_command
-  alias: Telegram On Command
+- id: telegram_call_service_callback
+  alias: Telegram Call Service Callback
   trigger:
-  - platform: event 
+  - platform: event
+    event_type: telegram_callback
+  action:
+  - service_template: >
+      {% set data = trigger.event.data.data.split(" ") %}
+      {{ data[1] }}
+    data_template:
+      entity_id: >
+        {% set data = trigger.event.data.data.split(" ") %}
+        {{ data[2] }}
+
+- id: telegram_call_service_command
+  alias: Telegram Call Service Command
+  trigger:
+  - platform: event
     event_type: telegram_command
     event_data:
-      command: /turn_on
+      command: /call_service
   action:
-  - service: homeassistant.turn_on
+  - service_template: '{{ trigger.event.data.args[0] }}'
     data_template:
-      entity_id: '{{ trigger.event.data.args[0] }}'
-#- id: telegram_on_callback
-#  alias: Telegram On Callback
-#  trigger:
-#  - platform: event 
-#    event_type: telegram_callback
-#    event_data:
-#      command: /turn_on
-#  action:
-#  - service: homeassistant.turn_on
-#    data_template:
-#      entity_id: '{{ trigger.event.data.args[0] }}'
-# Note: When using telegram notifications, invalid markup (e.g. an underscore or star) will result in an error.
-#  - service: notify.telegram_ben
-#    data_template:
-#      message: 'Send a message {{ trigger.event.data.args[0]|replace("_", "\_") }} stuff...'
+      entity_id: '{{ trigger.event.data.args[1] }}'

@@ -8,7 +8,7 @@ resources:
 
 views:
   - title: New
-    icon: mdi:test-tube
+    icon: mdi:home
     cards:
       - type: thermostat
         title: Climate
@@ -55,10 +55,17 @@ views:
   - title: Details
     path: details
     cards: 
+      - type: entity-button
+        entity: group.all_automations
+        name: Reload Automations
+        tap_action:
+          action: call-service
+          service: automation.reload
       - type: custom:monster-card
         card:
           title: Automations
           type: entities
+          show_header_toggle: false
         filter:
           include:
             - domain: automation
@@ -66,7 +73,7 @@ views:
         card:
           title: Sensors
           type: entities
-          show_header_toggle: false;
+          show_header_toggle: false
         filter:
           include:
             - domain: binary_sensor
@@ -75,7 +82,7 @@ views:
         card:
           title: ZWave Nodes
           type: entities
-          show_header_toggle: false;
+          show_header_toggle: false
         filter:
           include:
             - domain: zwave
@@ -84,7 +91,7 @@ views:
         card:
           title: Switches
           type: entities
-          show_header_toggle: false;
+          show_header_toggle: false
         filter:
           include:
             - domain: light
