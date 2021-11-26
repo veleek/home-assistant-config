@@ -25,7 +25,7 @@ config:
 system_health:
 
 http:
-  server_port: 443
+  server_port: 8443
   base_url: !secret http_base_url
   ssl_certificate: !secret http_ssl_certificate
   ssl_key: !secret http_ssl_key
@@ -61,13 +61,16 @@ sun:
 
 sensor:
   # Weather prediction
-  - platform: yr
+  # - platform: yr
   # SSL Certificate Monitoring and renewal
   - platform: command_line
     name: SSL cert expiry
     unit_of_measurement: days
     scan_interval: 86400
     command: "ssl-cert-check -b -c /etc/letsencrypt/live/hass.veleek.com/cert.pem | awk '{ print $NF }'"
+
+#device_tracker:
+#  - platform: bluetooth_tracker
 
 binary_sensor:
   # A sensor that indicates whether or not it is currently shortly before sunset
@@ -95,15 +98,13 @@ binary_sensor:
 
 
 shell_command:
-  renew_ssl: /usr/bin/certbot renew --quiet --no-self-upgrade --standalone --preferred-challenges http-01
+  renew_ssl: sudo /usr/bin/certbot renew --no-self-upgrade --webroot -w /var/certbot/public_html --preferred-challenges http-01
 
 # Text to speech
 tts:
   - platform: google
 
 light:
-  - platform: hue
-    host: 192.168.29.192
   - platform: template
     lights:
       kitchen_light:
@@ -166,20 +167,20 @@ homekit:
     include_domains:
       - light
 
-telegram_bot:
-  - platform: webhooks
-    api_key: !secret telegram_key
-    allowed_chat_ids:
-      - !secret telegram_ben_id
-      - !secret telegram_katie_id
-    trusted_networks:
-      - 149.154.167.197/32
-      - 149.154.167.198/31
-      - 149.154.167.200/29
-      - 149.154.167.208/28
-      - 149.154.167.224/29
-      - 149.154.167.232/31
-      - 192.168.29.0/24
+#telegram_bot:
+#  - platform: webhooks
+#    api_key: !secret telegram_key
+#    allowed_chat_ids:
+#      - !secret telegram_ben_id
+#      - !secret telegram_katie_id
+#    trusted_networks:
+#      - 149.154.167.197/32
+#      - 149.154.167.198/31
+#      - 149.154.167.200/29
+#      - 149.154.167.208/28
+#      - 149.154.167.224/29
+#      - 149.154.167.232/31
+#      - 10.0.0.0/24
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -206,9 +207,9 @@ notify:
 #    recipient:
 #      - !secret email
 #    sender_name: My Home Assistant
-  - name: telegram_ben
-    platform: telegram
-    chat_id: !secret telegram_ben_id
+#  - name: telegram_ben
+#    platform: telegram
+#    chat_id: !secret telegram_ben_id
 
 logger:
   default: info  

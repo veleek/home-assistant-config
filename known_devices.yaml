@@ -24,3 +24,27 @@ bens_traitor_phone:
   name: Ben's Traitor Phone
   picture:
   track: true
+
+iphone:
+  hide_if_away: false
+  icon:
+  mac: BT_58:40:4E:63:46:FD
+  name: iPhone
+  picture:
+  track: true
+
+tzumi_superbass:
+  hide_if_away: false
+  icon:
+  mac: BT_00:58:50:02:2C:72
+  name: Tzumi Superbass
+  picture:
+  track: true
+
+katies_iphone:
+  hide_if_away: false
+  icon:
+  mac: BT_70:70:0D:4D:78:D4
+  name: Katie’s iPhone
+  picture:
+  track: true

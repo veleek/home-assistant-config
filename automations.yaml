@@ -11,15 +11,22 @@
 - id: motion_sensor_turns_off_light
   alias: Motion sensor turns off light
   trigger:
-    platform: state
-    entity_id: sensor.entrysensor_burglar
-    to: '0'
+  - entity_id: sensor.entrysensor_burglar
     for:
       minutes: 1
+    platform: state
+    to: '0'
   action:
-    service: homeassistant.turn_off
-    data:
+  - data:
       entity_id: light.entry_level
+    service: homeassistant.turn_off
+- id: door_sensor_turns_on_light
+  alias: Door sensor turns on light
+  trigger:
+  - above: '100'
+    entity_id: sensor.entrysensor_burglar
+    platform: numeric_state
+  action: []
 - id: turn_off_bedside_light_after_15_minutes
   alias: Turn off bedside light after 15 minutes
   trigger:
@@ -103,15 +110,15 @@
       message: The office light is on.
       data:
         inline_keyboard:
-          - 'Turn Off:/call_service homeassistant.turn_off light.office_level'
-          - 'Turn On:/call_service homeassistant.turn_on light.office_level'
+        - Turn Off:/call_service homeassistant.turn_off light.office_level
+        - Turn On:/call_service homeassistant.turn_on light.office_level
   initial_state: false
 - id: garage_door_open
   alias: Garage Door is Open
   trigger:
   - platform: state
     entity_id: cover.garage_door_barrier_state
-    to: 'open'
+    to: open
     for:
       minutes: 30
   action:
@@ -120,14 +127,13 @@
       message: The garage door has been open for 30 minutes.
       data:
         inline_keyboard:
-          - 'Close Garage:/call_service cover.close_cover cover.garage_door_barrier_state'
-          
+        - Close Garage:/call_service cover.close_cover cover.garage_door_barrier_state
 - id: close_garage_door_at_night
   alias: Close Garage at Night
   trigger:
   - platform: state
     entity_id: cover.garage_door_barrier_state
-    to: 'open'
+    to: open
     for:
       minutes: 60
   condition:
@@ -140,22 +146,21 @@
       message: It's nighttime and the garage door has been open for an hour.
       data:
         inline_keyboard:
-          - 'Close Garage:/call_service cover.close_cover cover.garage_door_barrier_state'
-
+        - Close Garage:/call_service cover.close_cover cover.garage_door_barrier_state
 - id: telegram_call_service_callback
   alias: Telegram Call Service Callback
   trigger:
   - platform: event
     event_type: telegram_callback
   action:
-  - service_template: >
-      {% set data = trigger.event.data.data.split(" ") %}
-      {{ data[1] }}
-    data_template:
-      entity_id: >
-        {% set data = trigger.event.data.data.split(" ") %}
-        {{ data[2] }}
+  - service_template: '{% set data = trigger.event.data.data.split(" ") %} {{ data[1]
+      }}
 
+      '
+    data_template:
+      entity_id: '{% set data = trigger.event.data.data.split(" ") %} {{ data[2] }}
+
+        '
 - id: telegram_call_service_command
   alias: Telegram Call Service Command
   trigger:
