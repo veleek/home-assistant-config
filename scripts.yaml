@@ -1,0 +1,11 @@
+test_script:
+  alias: New Script
+  sequence:
+  - service: light.turn_off
+    target:
+      entity_id: light.in_wall_dimmer_switch_3
+    data:
+      transition: 0
+      flash: long
+  mode: single
+  icon: mdi:coat-rack

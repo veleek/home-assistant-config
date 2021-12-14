@@ -1,0 +1,61 @@
+version: '3.7'
+services:
+  zwavejs2mqtt:
+    container_name: zwavejs2mqtt
+    image: zwavejs/zwavejs2mqtt:latest
+    restart: always
+    tty: true
+    stop_signal: SIGINT
+    environment:
+      - SESSION_SECRET=super-secret-session-secret
+      # Uncomment if you want logs time and dates to match your timezone instead of UTC
+      # Available at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      - TZ=America/New_York
+    networks:
+      - zwave
+    devices:
+      - "/dev/zstick:/dev/zwave"
+    volumes:
+      - zwave-config:/usr/src/app/store
+    ports:
+      - '8091:8091' # port for web interface
+      - '3000:3000' # port for Z-Wave JS websocket server
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/raspberrypi3-homeassistant:stable"
+    environment:
+      - TZ=America/America/New_York
+    volumes:
+      - hass-config:/config
+      - ssl:/etc/letsencrypt
+      - /etc/localtime:/etc/localtime:ro
+      - ./cron_tasks/15min:/etc/periodic/15min:ro
+      - ./cron_tasks/weekly:/etc/periodic/weekly:ro
+      - ./cron_tasks/crond:/etc/init.d/crond
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+networks:
+  zwave:
+volumes:
+  ssl:
+    name: ssl
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/etc/letsencrypt'
+  zwave-config:
+    name: zwave-config
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/pi/zwaveconfig'
+  hass-config:
+    name: hass-config
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/pi/hassconfig'

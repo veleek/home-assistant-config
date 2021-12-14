@@ -1,0 +1,42 @@
+- id: '1637398667539'
+  alias: Motion-activated Entry Light
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      motion_entity: binary_sensor.multisensor_6_home_security_motion_detection
+      light_target:
+        entity_id: light.in_wall_dimmer_switch_2
+      no_motion_wait: 180
+- id: '1638345516241'
+  alias: Office Lights Sit/Stand Reminder
+  description: Blink Office Lights Every Two Hours during working hours.
+  trigger:
+  - platform: time
+    at:
+    - '10:00:00'
+    - '12:00:00'
+    - '14:00:00'
+    - '16:00:00'
+  condition: []
+  action:
+  - condition: numeric_state
+    entity_id: light.in_wall_dimmer_switch_3
+    attribute: brightness
+    above: '0'
+  - service: light.turn_off
+    target:
+      entity_id: light.in_wall_dimmer_switch_3
+    data:
+      transition: 0
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 750
+  - service: light.turn_on
+    target:
+      entity_id: light.in_wall_dimmer_switch_3
+    data:
+      transition: 0
+  mode: single
