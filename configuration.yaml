@@ -24,6 +24,7 @@ google_domains:
   domain: !secret domain
   username: !secret google_domains_username
   password: !secret google_domains_password
+  timeout: 60
 
 google_assistant:
   project_id: !secret ga_project_id
