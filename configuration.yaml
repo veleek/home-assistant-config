@@ -38,18 +38,18 @@ google_assistant:
     - cover
     - lock
     - sensor
-#  entity_config:
-#    light.bedside_light:
-#      expose: false
-#    light.reading_light:
-#      expose: false
-#    # The kitchen lights are exposed as a light, not as a switch so ignore this.
-#    switch.kitchen_switch:
-#      expose: false
-#    light.living_room:
-#      expose: false
-#    light.master:
-#      expose: false
+  entity_config:
+    light.bens_light:
+      expose: false
+    light.katies_light:
+      expose: false
+    light.baby_light:
+      expose: false
+    light.reading_light:
+      expose: false
+    # The kitchen lights are exposed as a light, not as a switch so ignore this.
+    switch.kitchen_switch:
+      expose: false
 
 shell_command:
   renew_ssl: sudo /usr/bin/certbot renew --no-self-upgrade --webroot -w /var/certbot/public_html --preferred-challenges http-01
@@ -59,6 +59,7 @@ light:
     lights:
       kitchen_light:
         friendly_name: Kitchen Light
+        unique_id: kitchen_light_template
         turn_on:
           service: switch.turn_on
           data:
