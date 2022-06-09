@@ -27,24 +27,13 @@ services:
       - TZ=America/America/New_York
     volumes:
       - hass-config:/config
-      - ssl:/etc/letsencrypt
       - /etc/localtime:/etc/localtime:ro
-      - ./cron_tasks/15min:/etc/periodic/15min:ro
-      - ./cron_tasks/weekly:/etc/periodic/weekly:ro
-      - ./cron_tasks/crond:/etc/init.d/crond
     restart: unless-stopped
     privileged: true
     network_mode: host
 networks:
   zwave:
 volumes:
-  ssl:
-    name: ssl
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/etc/letsencrypt'
   zwave-config:
     name: zwave-config
     driver: local
