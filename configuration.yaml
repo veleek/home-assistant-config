@@ -17,7 +17,7 @@ http:
   trusted_proxies:
     - 192.168.29.10
     - 192.168.29.100
-    - 172.19.0.2
+    - 172.19.0.0/24
 
 duckdns:
   domain: veleek
@@ -82,9 +82,10 @@ zone:
     radius: 200
     icon: mdi:laptop-windows
 
-# logger:
-#   default: info
-#   logs:
+logger:
+  default: warn
+  logs:
+    homeassistant.components.google_domains: debug
 #     # Filtering out a bunch of extra noise we don't want
 #     homeassistant.setup: warn
 #     homeassistant.loader: warn
