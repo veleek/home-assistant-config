@@ -100,3 +100,6 @@ logger:
 #     homeassistant.components.zwave.util: info
 #     openzwave: warn
 #     libopenzwave: warn
+
+prometheus:
+  namespace: hass
