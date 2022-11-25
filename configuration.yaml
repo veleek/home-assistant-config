@@ -18,6 +18,7 @@ http:
     - 192.168.29.10
     - 192.168.29.100
     - 172.19.0.0/24
+    - 172.19.0.2
 
 duckdns:
   domain: veleek
@@ -75,31 +76,69 @@ nest:
   client_secret: !secret nest_client_secret
   client_id: !secret nest_client_id
 
-zone:
-  - name: Work
-    latitude: !secret work_latitude
-    longitude: !secret work_longitude
-    radius: 200
-    icon: mdi:laptop-windows
+aarlo:
+  username: !secret arlo_username
+  password: !secret arlo_password
+  tfa_source: push
+  tfa_type: PUSH
+  #tfa_retries: 5
+  #tfa_delay: 10
+
+camera:
+  - platform: aarlo
+
+binary_sensor:
+  - platform: aarlo
+    monitored_conditions:
+      - motion
+      - sound
+      - cry
+      - connectivity
+
+sensor:
+  - platform: aarlo
+    monitored_conditions:
+      - recent_activity
+      - battery_level
+      - signal_strength
+      - temperature
+      - humidity
+      - air_quality
+
+# zone:
+#   - name: Work
+#     latitude: !secret work_latitude
+#     longitude: !secret work_longitude
+#     radius: 200
+#     icon: mdi:laptop-windows
 
 logger:
   default: warn
   logs:
     homeassistant.components.google_domains: debug
-#     # Filtering out a bunch of extra noise we don't want
-#     homeassistant.setup: warn
-#     homeassistant.loader: warn
-#     homeassistant.components.http: warn
-#     pyhap: warn
+    # # Filtering out a bunch of extra noise we don't want
+    # homeassistant.setup: warn
+    # homeassistant.loader: warn
+    # homeassistant.components.http: warn
+    # pyhap: warn
 
-#     # We never want debug for this
-#     homeassistant.components.websocket_api: info
+    # # We never want debug for this
+    # homeassistant.components.websocket_api: info
 
-#     # Some extra info for ZWave stuff
-#     homeassistant.components.zwave: info
-#     homeassistant.components.zwave.util: info
-#     openzwave: warn
-#     libopenzwave: warn
+    # # Some extra info for ZWave stuff
+    # homeassistant.components.zwave: info
+    # homeassistant.components.zwave.util: info
+    # openzwave: warn
+    # libopenzwave: warn
+    # custom_components.aarlo: debug
+    # custom_components.aarlo.alarm_control_panel: debug
+    # custom_components.aarlo.binary_sensor: debug
+    # custom_components.aarlo.camera: debug
+    # custom_components.aarlo.light: debug
+    # custom_components.aarlo.media_player: debug
+    # custom_components.aarlo.sensor: debug
+    # custom_components.aarlo.switch: debug
+    # pyaarlo: debug
 
 prometheus:
   namespace: hass

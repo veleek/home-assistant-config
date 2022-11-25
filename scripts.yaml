@@ -1,11 +1,45 @@
 test_script:
   alias: New Script
   sequence:
-  - service: light.turn_off
-    target:
-      entity_id: light.in_wall_dimmer_switch_3
-    data:
-      transition: 0
-      flash: long
+  - wait_for_trigger:
+    - platform: device
+      device_id: a7b22be1419d99b76460629d5d39f39e
+      domain: zwave_js
+      type: event.value_notification.basic
+      property: event
+      property_key:
+      endpoint: 0
+      command_class: 32
+      subtype: Endpoint 0
+      value: 255
+    continue_on_timeout: false
+    timeout: '120'
+  - type: turn_on
+    device_id: 655d9f90f49327fae250e2f55805e96b
+    entity_id: light.reading_light
+    domain: light
+    brightness_pct: 50
   mode: single
   icon: mdi:coat-rack
+'1655278236087':
+  alias: New Script
+  sequence:
+  - wait_for_trigger:
+    - platform: device
+      device_id: a7b22be1419d99b76460629d5d39f39e
+      domain: zwave_js
+      type: event.value_notification.basic
+      property: event
+      property_key:
+      endpoint: 0
+      command_class: 32
+      subtype: Endpoint 0
+      value: 0
+    timeout: '120'
+    continue_on_timeout: false
+  - type: turn_off
+    device_id: 655d9f90f49327fae250e2f55805e96b
+    entity_id: light.reading_light
+    domain: light
+  mode: single
+  icon: mdi:hanger
