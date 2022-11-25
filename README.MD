@@ -8,4 +8,4 @@ It serves two purposes:
 # Secrets
 
 Files that contain are excluded from the git repo in the `.gitignore`.  When moving this to a new machine you need to 
-manually cop
+manually copy those files.  See the [services repo](https://github.com/veleek/pi-services) for a script to do so.

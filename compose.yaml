@@ -55,7 +55,7 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/pi/zwaveconfig'
+      device: '/home/pi/hassconfig/zwaveconfig'
   hass-config:
     name: hass-config
     driver: local
