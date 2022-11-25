@@ -1,0 +1,95 @@
+blueprint:
+  name: Z-Wave Secondary Light Control
+  description: 'Toggle an light using a Z-Wave event.  This can be used to activate a different light than the one the
+    switch is wired to when it is double clicked.'
+  domain: automation
+  input:
+    control_switch:
+      name: Control Switch
+      description: The switch that will control the light when double-clicked.
+      selector:
+        device:
+          entity:
+            integration: zwave_js
+    target_light:
+      name: Target Light
+      description: The light to control.  When the switch is double-clicked, this is the light that will be controlled.
+      selector:
+        entity:
+          domain: 
+            - light
+            - switch
+    event_type:
+      name: Event Type
+      description: The type of the Z-WaveJS event that should trigger the action
+      default: event.value_notification.basic
+    endpoint:
+      name: Device Endpoint
+      description: The endpoint of the device the event comes from.
+      default: 0
+      selector:
+        number:
+          min: 0
+          max: 255
+          mode: box
+    command_class:
+      name: Command Class
+      description: The Z-Wave command class of the event.  See https://zwave-js.github.io/node-zwave-js/#/api/CCs/index.
+        Defaults to 32 (0x20) - Basic Command Class.
+      default: 32
+      selector:
+        number:
+          min: 0
+          max: 255
+          mode: box
+    light_brightness:
+      name: The target light brightness.
+      description: The brightness that the target light should be set to when it's turned on.  If the value is 0, then 
+        the brightness will not be specifically set.
+      default: 0.0
+      selector:
+        number:
+          min: 0.0
+          max: 255.0
+          mode: slider
+  source_url: https://gist.github.com/veleek/aaf0087c2690d066f5801bf94678278b
+variables:
+  endpoint: !input endpoint
+  light_brightness: !input light_brightness
+trigger:
+  platform: device
+  device_id: !input control_switch
+  domain: zwave_js
+  type: !input event_type
+  property: event
+  property_key: null
+  endpoint: !input endpoint
+  command_class: !input command_class
+  subtype: 'Endpoint {{endpoint}}'
+action:
+  - choose:
+      - alias: 'Switch On'
+        conditions: '{{ trigger.event.data.value == 255 }}'
+        sequence:
+          - if: '{{ light_brightness == 0 }}'
+            then:
+              - service: light.turn_on
+                target:
+                  entity_id: !input target_light
+            else:
+              - service: light.turn_on
+                target:
+                  entity_id: !input target_light
+                data:
+                  brightness: '{{ light_brightness }}'
+      - alias: 'Switch Off'
+        conditions: '{{ trigger.event.data.value == 0 }}'
+        sequence:
+          - service: light.turn_off
+            target:
+              entity_id: !input target_light
+    default:
+      - service: notify.notify
+        data:
+          message: 'Unexpected state {{ trigger.event.data.value }} received in event.'
+mode: restart
