@@ -2,16 +2,16 @@
 {"k":"{\"nodeId\":1,\"commandClass\":114,\"endpoint\":0,\"property\":\"productType\"}","v":257}
 {"k":"{\"nodeId\":1,\"commandClass\":114,\"endpoint\":0,\"property\":\"productId\"}","v":90}
 {"k":"{\"nodeId\":1,\"commandClass\":134,\"endpoint\":0,\"property\":\"firmwareVersions\"}","v":["1.0"]}
-{"k":"{\"nodeId\":22,\"commandClass\":49,\"endpoint\":0,\"property\":\"Air temperature\"}","v":73.3}
-{"k":"{\"nodeId\":22,\"commandClass\":49,\"endpoint\":0,\"property\":\"Humidity\"}","v":36}
+{"k":"{\"nodeId\":22,\"commandClass\":49,\"endpoint\":0,\"property\":\"Air temperature\"}","v":73}
+{"k":"{\"nodeId\":22,\"commandClass\":49,\"endpoint\":0,\"property\":\"Humidity\"}","v":51}
 {"k":"{\"nodeId\":22,\"commandClass\":128,\"endpoint\":0,\"property\":\"level\"}","v":100}
 {"k":"{\"nodeId\":22,\"commandClass\":128,\"endpoint\":0,\"property\":\"isLow\"}","v":false}
-{"k":"{\"nodeId\":22,\"commandClass\":49,\"endpoint\":0,\"property\":\"Illuminance\"}","v":6}
+{"k":"{\"nodeId\":22,\"commandClass\":49,\"endpoint\":0,\"property\":\"Illuminance\"}","v":0}
 {"k":"{\"nodeId\":22,\"commandClass\":49,\"endpoint\":0,\"property\":\"Ultraviolet\"}","v":0}
 {"k":"{\"nodeId\":22,\"commandClass\":132,\"endpoint\":0,\"property\":\"wakeUpInterval\"}","v":3600}
 {"k":"{\"nodeId\":22,\"commandClass\":132,\"endpoint\":0,\"property\":\"controllerNodeId\"}","v":1}
-{"k":"{\"nodeId\":22,\"commandClass\":32,\"endpoint\":0,\"property\":\"currentValue\"}","v":0}
-{"k":"{\"nodeId\":22,\"commandClass\":113,\"endpoint\":0,\"property\":\"Home Security\",\"propertyKey\":\"Motion sensor status\"}","v":0}
+{"k":"{\"nodeId\":22,\"commandClass\":32,\"endpoint\":0,\"property\":\"currentValue\"}","v":255}
+{"k":"{\"nodeId\":22,\"commandClass\":113,\"endpoint\":0,\"property\":\"Home Security\",\"propertyKey\":\"Motion sensor status\"}","v":8}
 {"k":"{\"nodeId\":22,\"commandClass\":114,\"endpoint\":0,\"property\":\"manufacturerId\"}","v":134}
 {"k":"{\"nodeId\":22,\"commandClass\":114,\"endpoint\":0,\"property\":\"productType\"}","v":258}
 {"k":"{\"nodeId\":22,\"commandClass\":114,\"endpoint\":0,\"property\":\"productId\"}","v":100}
@@ -191,7 +191,7 @@
 {"k":"{\"nodeId\":32,\"commandClass\":133,\"endpoint\":0,\"property\":\"groupCount\"}","v":1}
 {"k":"{\"nodeId\":32,\"commandClass\":133,\"endpoint\":0,\"property\":\"maxNodes\",\"propertyKey\":1}","v":1}
 {"k":"{\"nodeId\":32,\"commandClass\":133,\"endpoint\":0,\"property\":\"nodeIds\",\"propertyKey\":1}","v":[1]}
-{"k":"{\"nodeId\":32,\"commandClass\":102,\"endpoint\":0,\"property\":\"currentState\"}","v":255}
+{"k":"{\"nodeId\":32,\"commandClass\":102,\"endpoint\":0,\"property\":\"currentState\"}","v":0}
 {"k":"{\"nodeId\":32,\"commandClass\":133,\"endpoint\":0,\"property\":\"hasLifeline\"}","v":true}
 {"k":"{\"nodeId\":32,\"commandClass\":133,\"endpoint\":0,\"property\":\"interviewComplete\"}","v":true}
 {"k":"{\"nodeId\":32,\"commandClass\":89,\"endpoint\":0,\"property\":\"name\",\"propertyKey\":1}","v":"Lifeline"}
@@ -214,7 +214,7 @@
 {"k":"{\"nodeId\":32,\"commandClass\":113,\"endpoint\":0,\"property\":\"Home Security\",\"propertyKey\":\"Cover status\"}","v":0}
 {"k":"{\"nodeId\":32,\"commandClass\":113,\"endpoint\":0,\"property\":\"interviewComplete\"}","v":true}
 {"k":"{\"nodeId\":32,\"commandClass\":102,\"endpoint\":0,\"property\":\"targetState\"}","v":255}
-{"k":"{\"nodeId\":32,\"commandClass\":102,\"endpoint\":0,\"property\":\"position\"}","v":100}
+{"k":"{\"nodeId\":32,\"commandClass\":102,\"endpoint\":0,\"property\":\"position\"}","v":0}
 {"k":"{\"nodeId\":33,\"commandClass\":114,\"endpoint\":0,\"property\":\"manufacturerId\"}","v":99}
 {"k":"{\"nodeId\":33,\"commandClass\":114,\"endpoint\":0,\"property\":\"productType\"}","v":18756}
 {"k":"{\"nodeId\":33,\"commandClass\":114,\"endpoint\":0,\"property\":\"productId\"}","v":12853}
@@ -265,7 +265,7 @@
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"targetValue\"}","v":0}
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"switchType\"}","v":2}
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"duration\"}","v":{"value":0,"unit":"seconds","$$type$$":"duration"}}
-{"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"currentValue\"}","v":53}
+{"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"currentValue\"}","v":0}
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"interviewComplete\"}","v":true}
 {"k":"{\"nodeId\":33,\"commandClass\":91,\"endpoint\":0,\"property\":\"sceneCount\"}","v":2}
 {"k":"{\"nodeId\":33,\"commandClass\":91,\"endpoint\":0,\"property\":\"supportsSlowRefresh\"}","v":true}
@@ -355,3 +355,5 @@
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"superviseStartStopLevelChange\"}","v":false}
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"Up\"}","v":true}
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"Down\"}","v":true}
+{"k":"{\"nodeId\":22,\"commandClass\":113,\"endpoint\":0,\"property\":\"alarmType\"}","v":0}
+{"k":"{\"nodeId\":22,\"commandClass\":113,\"endpoint\":0,\"property\":\"alarmLevel\"}","v":0}

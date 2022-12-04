@@ -1,166 +1,3 @@
-- id: '1637398667539'
-  alias: Motion-activated Entry Light
-  description: ''
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      motion_entity: binary_sensor.multisensor_6_home_security_motion_detection
-      light_target:
-        entity_id: light.in_wall_dimmer_switch_2
-      no_motion_wait: 180
-- id: '1638345516241'
-  alias: Office Lights Sit/Stand Reminder
-  description: Blink Office Lights Every Two Hours during working hours.
-  trigger:
-  - platform: time
-    at:
-    - '10:00:00'
-    - '12:00:00'
-    - '14:00:00'
-    - '16:00:00'
-  condition: []
-  action:
-  - condition: numeric_state
-    entity_id: light.in_wall_dimmer_switch_3
-    attribute: brightness
-    above: '0'
-  - service: light.turn_off
-    target:
-      entity_id: light.in_wall_dimmer_switch_3
-    data:
-      transition: 0
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 0
-      milliseconds: 750
-  - service: light.turn_on
-    target:
-      entity_id: light.in_wall_dimmer_switch_3
-    data:
-      transition: 0
-  mode: single
-- id: '1656883679863'
-  alias: Double Click Living Room for Reading Light
-  description: ''
-  use_blueprint:
-    path: veleek/double-click-switch-blueprint.yaml
-    input:
-      control_switch: 18d117948955e6d49d1f3d264a99e9e4
-      target_light: light.reading_light
-      light_brightness: 64
-- id: '1656912075293'
-  alias: Double Click Office for Reading Light
-  description: ''
-  use_blueprint:
-    path: veleek/double-click-switch-blueprint.yaml
-    input:
-      control_switch: a7b22be1419d99b76460629d5d39f39e
-      target_light: light.reading_light
-      light_brightness: 255
-- id: '1656914813228'
-  alias: Double Click Kitchen for Dining Room
-  description: ''
-  use_blueprint:
-    path: veleek/double-click-switch-blueprint.yaml
-    input:
-      control_switch: 82a999256c0a6b4a2aee2912146d4944
-      target_light: light.in_wall_dimmer_switch
-- id: '1656914873374'
-  alias: Double Click Dining Room for Kitchen
-  description: ''
-  use_blueprint:
-    path: veleek/double-click-switch-blueprint.yaml
-    input:
-      control_switch: c5406fb5ae1aaaf721f11b304adffb78
-      target_light: switch.kitchen_switch
-- id: '1657005187642'
-  alias: Tesla Charge Notifications
-  description: Sends a repeated set of notifications to plug in the Tesla if the charge
-    is low and it's not plugged in and it's later on in the evening.
-  trigger:
-  - platform: time
-    at: '21:00:00'
-  - platform: state
-    entity_id:
-    - device_tracker.tessa_location_tracker
-    to: home
-    for:
-      hours: 0
-      minutes: 15
-      seconds: 0
-  condition:
-  - condition: time
-    before: 04:00:00
-    after: '21:00:00'
-  - condition: device
-    device_id: 1737b2ac5a0e4ed733dd40e3b838f9f0
-    domain: device_tracker
-    entity_id: device_tracker.tessa_location_tracker
-    type: is_home
-  - type: is_battery_level
-    condition: device
-    device_id: 1737b2ac5a0e4ed733dd40e3b838f9f0
-    entity_id: sensor.tessa_battery_sensor
-    domain: sensor
-    below: 50
-  - condition: time
-    after: input_datetime.tesla_charge_snooze
-  action:
-  - repeat:
-      while:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.tessa_charger_sensor
-          attribute: charging_state
-          state: Charging
-      - condition: device
-        device_id: 1737b2ac5a0e4ed733dd40e3b838f9f0
-        domain: device_tracker
-        entity_id: device_tracker.tessa_location_tracker
-        type: is_home
-      - type: is_battery_level
-        condition: device
-        device_id: 1737b2ac5a0e4ed733dd40e3b838f9f0
-        entity_id: sensor.tessa_battery_sensor
-        domain: sensor
-        below: 40
-      sequence:
-      - service: notify.mobile_app_traitorphone
-        data:
-          message: clear_notification
-          data:
-            tag: tesla-charge-reminder
-      - service: notify.mobile_app_traitorphone
-        data:
-          title: Tesla should be plugged in.
-          message: The Tesla is low on battery ({{ states.sensor.tessa_battery_sensor.state
-            }}% ) and is not plugged in.  Please plug it in to ensure that the battery
-            is charged.
-          data:
-            tag: tesla-charge-reminder
-            actions:
-            - action: SNOOZE1HR
-              title: Snooze for 1 hour
-              icon: sfsymbols:bell.slash.fill
-            - action: SNOOZEOVERNIGHT
-              title: Snooze until morning
-              icon: sfsymbols:bed.double.circle.fill
-      - delay:
-          hours: 0
-          minutes: 15
-          seconds: 0
-          milliseconds: 0
-  mode: single
-- id: '1657006249272'
-  alias: Double Click Kids Light for Hanging Light
-  description: ''
-  use_blueprint:
-    path: veleek/double-click-switch-blueprint.yaml
-    input:
-      control_switch: 720f47105abace487fe73621caed1d41
-      target_light: light.baby_light
 - id: '1664334164626'
   alias: Auto-close Garage at 11 PM
   description: ''
@@ -169,12 +6,12 @@
     at: '23:00:00'
   condition:
   - condition: device
-    device_id: 58057f1cae96c10880c02e8ebbbe6306
+    device_id: 4668e12869f12ddbcb9f94a4898cfff9
     domain: cover
     entity_id: cover.garage_door_controller
     type: is_open
   action:
-  - device_id: 58057f1cae96c10880c02e8ebbbe6306
+  - device_id: 4668e12869f12ddbcb9f94a4898cfff9
     domain: cover
     entity_id: cover.garage_door_controller
     type: close
@@ -182,66 +19,6 @@
     data:
       message: Auto-closed garage door
   mode: restart
-- id: '1664644859767'
-  alias: Turn off water table
-  description: ''
-  trigger:
-  - platform: device
-    type: turned_on
-    device_id: 9b7b4b64158202371f142ec042287c95
-    entity_id: switch.weather_resistant_outdoor_switch
-    domain: switch
-    for:
-      hours: 0
-      minutes: 30
-      seconds: 0
-  condition: []
-  action:
-  - type: turn_off
-    device_id: 9b7b4b64158202371f142ec042287c95
-    entity_id: switch.weather_resistant_outdoor_switch
-    domain: switch
-  mode: single
-- id: '1666670631830'
-  alias: Control Heater from Camera
-  description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /5
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: numeric_state
-        entity_id: sensor.aarlo_temperature_kids_room
-        below: '70'
-      sequence:
-      - type: turn_on
-        device_id: 9b7b4b64158202371f142ec042287c95
-        entity_id: switch.weather_resistant_outdoor_switch
-        domain: switch
-    - conditions:
-      - condition: numeric_state
-        entity_id: sensor.aarlo_temperature_kids_room
-        above: '73'
-      sequence:
-      - type: turn_off
-        device_id: 9b7b4b64158202371f142ec042287c95
-        entity_id: switch.weather_resistant_outdoor_switch
-        domain: switch
-    default: []
-  - condition: state
-    entity_id: switch.weather_resistant_outdoor_switch
-    state: unavailable
-    for:
-      hours: 0
-      minutes: 30
-      seconds: 0
-  - service: notify.mobile_app_traitorphone
-    data:
-      message: The switch for the heater is unavailable!
-      title: Go turn on or off the heater!
-  mode: single
 - id: '1668307957780'
   alias: Auto-open when Ben gets home
   description: ''
@@ -278,7 +55,7 @@
         entity_id: person.ben
         state: home
       sequence:
-      - device_id: 58057f1cae96c10880c02e8ebbbe6306
+      - device_id: 4668e12869f12ddbcb9f94a4898cfff9
         domain: cover
         entity_id: cover.garage_door_controller
         type: open
@@ -286,42 +63,4 @@
         data:
           title: Auto-Garage Door
           message: You have arrived home and the garage door is opening automatically.
-  mode: single
-- id: '1668922052664'
-  alias: Tesla Charge Notification Snooze
-  description: ''
-  trigger:
-  - platform: event
-    event_type: mobile_app_notification_action
-    event_data:
-      action: SNOOZE1HR
-    id: snooze1hr
-  - platform: event
-    event_type: mobile_app_notification_action
-    event_data:
-      action: SNOOZEOVERNIGHT
-    id: snoozeovernight
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: snooze1hr
-      sequence:
-      - service: input_datetime.set_datetime
-        data:
-          datetime: '{{ (now() + timedelta( hours = 1 )).strftime(''%Y-%m-%d %H:%M:%S'')
-            }}'
-        target:
-          entity_id: input_datetime.tesla_charge_snooze
-    - conditions:
-      - condition: trigger
-        id: snoozeovernight
-      sequence:
-      - service: input_datetime.set_datetime
-        data:
-          datetime: '{{ ( today_at(''9:00'') + timedelta( days = 1 )).strftime(''%Y-%m-%d
-            %H:%M:%S'') }}'
-        target:
-          entity_id: input_datetime.tesla_charge_snooze
   mode: single

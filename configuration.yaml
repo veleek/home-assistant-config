@@ -15,10 +15,22 @@ http:
   #base_url: !secret http_base_url
   use_x_forwarded_for: true
   trusted_proxies:
-    - 192.168.29.10
-    - 192.168.29.100
-    - 172.19.0.0/24
-    - 172.19.0.2
+    - '172.20.0.1'
+    - '172.20.0.2'
+    - '172.20.0.3'
+    - '172.20.0.4'
+    - '172.20.0.5'
+    - '172.20.0.6'
+    - '172.20.0.7'
+    - '172.20.0.8'
+    - '172.20.0.9'
+    - '172.20.0.10'
+    - '172.20.0.11'
+    - '172.20.0.12'
+    - '172.20.0.13'
+    - '172.20.0.14'
+    - '172.20.0.15'
+    - '172.20.0.16'
 
 duckdns:
   domain: veleek
@@ -139,6 +151,7 @@ logger:
     # custom_components.aarlo.sensor: debug
     # custom_components.aarlo.switch: debug
     # pyaarlo: debug
+    # custom_components: debug
 
 prometheus:
   namespace: hass
