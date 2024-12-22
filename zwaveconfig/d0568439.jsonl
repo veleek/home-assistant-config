@@ -99,7 +99,6 @@
 {"k":"node.32.securityClasses.S2_Authenticated","v":false}
 {"k":"node.32.securityClasses.S2_Unauthenticated","v":false}
 {"k":"node.33.deviceClass","v":{"basic":4,"generic":17,"specific":1}}
-{"k":"node.33.endpoint.0.commandClass.0x20","v":{"isSupported":true,"isControlled":false,"secure":false,"version":1}}
 {"k":"node.33.endpoint.0.commandClass.0x26","v":{"isSupported":true,"isControlled":false,"secure":false,"version":4}}
 {"k":"node.33.endpoint.0.commandClass.0x27","v":{"isSupported":true,"isControlled":false,"secure":false,"version":0}}
 {"k":"node.33.endpoint.0.commandClass.0x5e","v":{"isSupported":true,"isControlled":false,"secure":false,"version":2}}
@@ -131,7 +130,6 @@
 {"k":"node.33.interviewStage","v":"Complete"}
 {"k":"node.33.endpoint.0.commandClass.0x9f","v":{"isSupported":true,"isControlled":false,"secure":true,"version":0}}
 {"k":"node.35.deviceClass","v":{"basic":4,"generic":17,"specific":1}}
-{"k":"node.35.endpoint.0.commandClass.0x20","v":{"isSupported":true,"isControlled":false,"secure":false,"version":1}}
 {"k":"node.35.endpoint.0.commandClass.0x26","v":{"isSupported":true,"isControlled":false,"secure":true,"version":4}}
 {"k":"node.35.endpoint.0.commandClass.0x27","v":{"isSupported":true,"isControlled":false,"secure":false,"version":0}}
 {"k":"node.35.endpoint.0.commandClass.0x5e","v":{"isSupported":true,"isControlled":false,"secure":false,"version":2}}
@@ -163,3 +161,7 @@
 {"k":"node.35.supportsSecurity","v":false}
 {"k":"node.35.supportsBeaming","v":true}
 {"k":"node.35.interviewStage","v":"Complete"}
+{"k":"node.32.lastSeen","v":1721652237360}
+{"k":"node.33.lastSeen","v":1718522275073}
+{"k":"node.35.lastSeen","v":1718548410289}
+{"k":"node.22.lastSeen","v":1718565692886}

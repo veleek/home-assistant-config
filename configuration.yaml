@@ -3,8 +3,8 @@
 default_config:
 
 # Text to speech
-tts:
-  - platform: google_translate
+# tts:
+#  - platform: google_translate
 
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -15,32 +15,34 @@ http:
   #base_url: !secret http_base_url
   use_x_forwarded_for: true
   trusted_proxies:
-    - '172.20.0.1'
-    - '172.20.0.2'
-    - '172.20.0.3'
-    - '172.20.0.4'
-    - '172.20.0.5'
-    - '172.20.0.6'
-    - '172.20.0.7'
-    - '172.20.0.8'
-    - '172.20.0.9'
-    - '172.20.0.10'
-    - '172.20.0.11'
-    - '172.20.0.12'
-    - '172.20.0.13'
-    - '172.20.0.14'
-    - '172.20.0.15'
-    - '172.20.0.16'
+   - '172.18.0.3'
+   - '172.18.0.0/16'
+    # - '172.20.0.1'
+    # - '172.20.0.2'
+    # - '172.20.0.3'
+    # - '172.20.0.4'
+    # - '172.20.0.5'
+    # - '172.20.0.6'
+    # - '172.20.0.7'
+    # - '172.20.0.8'
+    # - '172.20.0.9'
+    # - '172.20.0.10'
+    # - '172.20.0.11'
+    # - '172.20.0.12'
+    # - '172.20.0.13'
+    # - '172.20.0.14'
+    # - '172.20.0.15'
+    # - '172.20.0.16'
+
+# NOTE: home.veleek.com is updated by the Unifi gateway right now in addition to this.
+namecheapdns:
+  domain: !secret domain
+  host: !secret namecheap_host
+  password: !secret namecheap_password
 
 duckdns:
-  domain: veleek
-  access_token: 4748785b-fed1-4962-8f30-b0398a1055fd
-
-google_domains:
-  domain: !secret domain
-  username: !secret google_domains_username
-  password: !secret google_domains_password
-  timeout: 60
+  domain: !secret duckdns_domain
+  access_token: !secret duckdns_access_token
 
 google_assistant:
   project_id: !secret ga_project_id
@@ -66,6 +68,46 @@ google_assistant:
     # The kitchen lights are exposed as a light, not as a switch so ignore this.
     switch.kitchen_switch:
       expose: false
+    lock.tessa_charger_door_lock:
+      expose: false
+    lock.tessa_door_lock:
+      expose: false
+    lock.tessa_frunk_lock:
+      expose: false
+    lock.tessa_trunk_lock:
+      expose: false
+    sensor.tessa_charging_rate_sensor:
+      expose: false
+    sensor.tessa_energy_added_sensor:
+      expose: false
+    sensor.tessa_battery_sensor:
+      expose: false
+    sensor.tessa_mileage_sensor:
+      expose: false
+    sensor.tessa_range_sensor:
+      expose: false
+    sensor.tessa_temperature_sensor_inside:
+      expose: false
+    sensor.tessa_temperature_sensor_outside:
+      expose: false
+    switch.tessa_charger_switch:
+      expose: false
+    switch.tessa_heated_steering_switch:
+      expose: false
+    switch.tessa_maxrange_switch:
+      expose: false
+    switch.tessa_polling_switch:
+      expose: false
+    switch.tessa_sentry_mode_switch:
+      expose: false
+    switch.garage_door_signaling_state_audible:
+      expose: false
+    switch.garage_door_signaling_state_visual:
+      expose: false
+    sensor.aarlo_humidity_kids_room:
+      expose: false
+    sensor.aarlo_temperature_kids_room:
+      expose: false
 
 light:
   - platform: template
@@ -84,45 +126,38 @@ light:
         level_template: '{% if is_state("switch.kitchen_switch", "on") %}255{%else %}0{%endif%}'
         value_template: '{{ is_state("switch.kitchen_switch", "on") }}'
 
-nest:
-  client_secret: !secret nest_client_secret
-  client_id: !secret nest_client_id
+#nest:
+#  client_secret: !secret nest_client_secret
+#  client_id: !secret nest_client_id
 
-aarlo:
-  username: !secret arlo_username
-  password: !secret arlo_password
-  tfa_source: push
-  tfa_type: PUSH
+#aarlo:
+#  username: !secret arlo_username
+#  password: !secret arlo_password
+#  tfa_source: push
+#  tfa_type: PUSH
   #tfa_retries: 5
   #tfa_delay: 10
 
-camera:
-  - platform: aarlo
+#camera:
+#  - platform: aarlo
 
-binary_sensor:
-  - platform: aarlo
-    monitored_conditions:
-      - motion
-      - sound
-      - cry
-      - connectivity
+#binary_sensor:
+#  - platform: aarlo
+#    monitored_conditions:
+#      - motion
+#      - sound
+#      - cry
+#      - connectivity
 
-sensor:
-  - platform: aarlo
-    monitored_conditions:
-      - recent_activity
-      - battery_level
-      - signal_strength
-      - temperature
-      - humidity
-      - air_quality
-
-# zone:
-#   - name: Work
-#     latitude: !secret work_latitude
-#     longitude: !secret work_longitude
-#     radius: 200
-#     icon: mdi:laptop-windows
+#sensor:
+#  - platform: aarlo
+#    monitored_conditions:
+#      - recent_activity
+#      - battery_level
+#      - signal_strength
+#      - temperature
+#      - humidity
+#      - air_quality
 
 logger:
   default: warn

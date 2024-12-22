@@ -1,3 +1,82 @@
+- id: '1657005187642'
+  alias: Tesla Charge Notifications
+  description: Sends a repeated set of notifications to plug in the Tesla if the charge
+    is low and it's not plugged in and it's later on in the evening.
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  - platform: state
+    entity_id:
+    - device_tracker.tessa_location_tracker
+    to: home
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  condition:
+  - condition: time
+    before: 04:00:00
+    after: '21:00:00'
+  - condition: device
+    device_id: 1737b2ac5a0e4ed733dd40e3b838f9f0
+    domain: device_tracker
+    entity_id: device_tracker.tessa_location_tracker
+    type: is_home
+  - type: is_battery_level
+    condition: device
+    device_id: 1737b2ac5a0e4ed733dd40e3b838f9f0
+    entity_id: sensor.tessa_battery_sensor
+    domain: sensor
+    below: 50
+  - condition: time
+    after: input_datetime.tesla_charge_snooze
+  action:
+  - repeat:
+      while:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.tessa_charger_sensor
+          attribute: charging_state
+          state: Charging
+      - condition: device
+        device_id: 1737b2ac5a0e4ed733dd40e3b838f9f0
+        domain: device_tracker
+        entity_id: device_tracker.tessa_location_tracker
+        type: is_home
+      - type: is_battery_level
+        condition: device
+        device_id: 1737b2ac5a0e4ed733dd40e3b838f9f0
+        entity_id: sensor.tessa_battery_sensor
+        domain: sensor
+        below: 40
+      sequence:
+      - service: notify.mobile_app_traitorphone
+        data:
+          message: clear_notification
+          data:
+            tag: tesla-charge-reminder
+      - service: notify.mobile_app_traitorphone
+        data:
+          title: Tesla should be plugged in.
+          message: The Tesla is low on battery ({{ states("sensor.tessa_battery_sensor")}}%
+            ) and is not plugged in.  Please plug it in to ensure that the battery
+            is charged.
+          data:
+            tag: tesla-charge-reminder
+            actions:
+            - action: SNOOZE1HR
+              title: Snooze for 1 hour
+              icon: sfsymbols:bell.slash.fill
+            - action: SNOOZEOVERNIGHT
+              title: Snooze until morning
+              icon: sfsymbols:bed.double.circle.fill
+      - delay:
+          hours: 0
+          minutes: 15
+          seconds: 0
+          milliseconds: 0
+  mode: single
 - id: '1664334164626'
   alias: Auto-close Garage at 11 PM
   description: ''
@@ -6,61 +85,205 @@
     at: '23:00:00'
   condition:
   - condition: device
-    device_id: 4668e12869f12ddbcb9f94a4898cfff9
+    device_id: 58057f1cae96c10880c02e8ebbbe6306
     domain: cover
-    entity_id: cover.garage_door_controller
+    entity_id: cover.garage_door
     type: is_open
   action:
-  - device_id: 4668e12869f12ddbcb9f94a4898cfff9
+  - device_id: 58057f1cae96c10880c02e8ebbbe6306
     domain: cover
-    entity_id: cover.garage_door_controller
+    entity_id: cover.garage_door
     type: close
   - service: notify.mobile_app_traitorphone
     data:
       message: Auto-closed garage door
   mode: restart
 - id: '1668307957780'
-  alias: Auto-open when Ben gets home
+  alias: Auto-open when someone gets home
   description: ''
   trigger:
   - platform: state
+    id: arrived_home
     entity_id:
     - person.ben
-    to: home
+    - person.katie
+    from:
+    - not_home
+    to:
+    - home
+    - AtHome
+    - CloseToHome
     for:
-      seconds: 15
-  - platform: state
-    entity_id:
-    - person.ben
-    to: not_home
+      hours: 0
+      minutes: 0
+      seconds: 5
   condition:
   - condition: state
-    entity_id: device_tracker.tessa_location_tracker
-    for:
-      minutes: 5
-    state:
-    - home
-    - not_home
+    entity_id: cover.garage_door
+    state: closed
+  action:
+  - device_id: 58057f1cae96c10880c02e8ebbbe6306
+    domain: cover
+    entity_id: cover.garage_door
+    type: open
+  - service: notify.mobile_app_traitorphone
+    data:
+      title: Garage Door Opening
+      message: '{{ state_attr(trigger.entity_id, "friendly_name") }} has arrived home
+        and the garage door is opening.'
+  mode: single
+- id: '1668922052664'
+  alias: Tesla Charge Notification Snooze
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: SNOOZE1HR
+    id: snooze1hr
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: SNOOZEOVERNIGHT
+    id: snoozeovernight
+  condition: []
   action:
   - choose:
     - conditions:
-      - condition: state
-        entity_id: person.ben
-        state: not_home
+      - condition: trigger
+        id: snooze1hr
       sequence:
-      - delay:
-          minutes: 5
-    - conditions:
-      - condition: state
-        entity_id: person.ben
-        state: home
-      sequence:
-      - device_id: 4668e12869f12ddbcb9f94a4898cfff9
-        domain: cover
-        entity_id: cover.garage_door_controller
-        type: open
-      - service: notify.mobile_app_traitorphone
+      - service: input_datetime.set_datetime
         data:
-          title: Auto-Garage Door
-          message: You have arrived home and the garage door is opening automatically.
+          datetime: '{{ (now() + timedelta( hours = 1 )).strftime(''%Y-%m-%d %H:%M:%S'')
+            }}'
+        target:
+          entity_id: input_datetime.tesla_charge_snooze
+    - conditions:
+      - condition: trigger
+        id: snoozeovernight
+      sequence:
+      - service: input_datetime.set_datetime
+        data:
+          datetime: '{{ ( today_at(''9:00'') + timedelta( days = 1 )).strftime(''%Y-%m-%d
+            %H:%M:%S'') }}'
+        target:
+          entity_id: input_datetime.tesla_charge_snooze
+  mode: single
+- id: '1676165592098'
+  alias: Office Motion Light
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      motion_entity: binary_sensor.multisensor_6_home_security_motion_detection
+      light_target:
+        device_id: be2b051acbdfbdb0f301a5c6a6deb938
+      no_motion_wait: 300
+- id: '1681083747538'
+  alias: Home Notification
+  description: Notify on home arrival.
+  trigger:
+  - platform: state
+    id: arrived_home
+    entity_id:
+    - person.ben
+    - person.katie
+    not_from:
+    - home
+    to:
+    - home
+  condition: []
+  action:
+  - service: notify.mobile_app_traitorphone
+    data:
+      title: '{{ state_attr(trigger.entity_id, "friendly_name") }} has arrived at
+        home.'
+      message: '{{ state_attr(trigger.entity_id, "friendly_name") }} is home."'
+  mode: single
+- id: '1682280811051'
+  alias: At Weddington
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id:
+    - person.katie
+    - person.ben
+    zone: zone.weddingtonandmckee
+    event: enter
+  condition: []
+  action:
+  - service: notify.mobile_app_traitorphone
+    data:
+      message: '{{state_attr(trigger.entity_id, "friendly_name") }} at weddington
+        and state says: {{ states.person.katie.state }}'
+  mode: single
+- id: '1685762091032'
+  alias: Garage Fridge Notification
+  description: Sends me a notification when the fridge in the garage is left open
+    for too long.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.fridge_door_sensor
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.mobile_app_traitorphone
+    data:
+      title: The fridge in the garage is open!
+      message: It's been open for the past five minutes, make sure to go close it.
+  - service: notify.mobile_app_katies_iphone
+    data:
+      title: The fridge in the garage is open!
+      message: It's been open for the past five minutes, make sure to go close it.
+  mode: single
+- id: '1685848358873'
+  alias: CinnaScale Offline Notification
+  description: Notifies me if the cat food scale is offline.
+  trigger:
+  - platform: time_pattern
+    hours: /1
+  condition:
+  - condition: template
+    value_template: '{{ (as_timestamp(now()) - as_timestamp(states.sensor.cinnascale.last_changed))
+      > 43200 }}'
+  action:
+  - service: notify.mobile_app_traitorphone
+    data:
+      title: CinnaScale is offline
+      message: The scale value has not changed in the past 12 hours which could indicate
+        that the scale is offline.  Reboot it and see if it comes back.
+  mode: single
+- id: '1685849053826'
+  alias: CinnaScale Notification
+  description: Sends a notification when the food bowls is empty or close to empty.
+  trigger:
+  - platform: time_pattern
+    hours: /2
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.cinnascale
+    below: 20
+  action:
+  - if:
+    - condition: state
+      entity_id: binary_sensor.cinnascale_empty
+      state: 'on'
+    then:
+    - service: notify.mobile_app_traitorphone
+      data:
+        title: Cinnamon is out of food!
+        message: It looks like the food bowl is empty! The scale is reporting {{ states("sensor.cinnascale",
+          with_unit=true) }}.  Better refill it soon!
+    else:
+    - service: notify.mobile_app_traitorphone
+      data:
+        title: Cinnamon's food is low.
+        message: There are only {{ states("sensor.cinnascale", with_unit=true) }}
+          of food left in the bowl. Consider refilling it soon.
   mode: single

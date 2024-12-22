@@ -670,3 +670,10 @@
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"targetValue\"}","v":{"type":"number","readable":true,"writeable":true,"min":0,"max":99,"label":"Target value","valueChangeOptions":["transitionDuration"]}}
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"duration\"}","v":{"type":"duration","readable":true,"writeable":false,"label":"Remaining duration"}}
 {"k":"{\"nodeId\":33,\"commandClass\":38,\"endpoint\":0,\"property\":\"currentValue\"}","v":{"type":"number","readable":true,"writeable":false,"min":0,"max":99,"label":"Current value"}}
+{"k":"{\"nodeId\":35,\"commandClass\":38,\"endpoint\":0,\"property\":\"targetValue\"}","v":{"type":"number","readable":true,"writeable":true,"min":0,"max":99,"label":"Target value","valueChangeOptions":["transitionDuration"]}}
+{"k":"{\"nodeId\":35,\"commandClass\":38,\"endpoint\":0,\"property\":\"duration\"}","v":{"type":"duration","readable":true,"writeable":false,"label":"Remaining duration"}}
+{"k":"{\"nodeId\":35,\"commandClass\":38,\"endpoint\":0,\"property\":\"currentValue\"}","v":{"type":"number","readable":true,"writeable":false,"min":0,"max":99,"label":"Current value"}}
+{"k":"{\"nodeId\":22,\"commandClass\":132,\"endpoint\":0,\"property\":\"controllerNodeId\"}","v":{"type":"any","readable":true,"writeable":false,"label":"Node ID of the controller"}}
+{"k":"{\"nodeId\":32,\"commandClass\":113,\"endpoint\":0,\"property\":\"alarmType\"}","v":{"type":"number","readable":true,"writeable":false,"min":0,"max":255,"label":"Alarm Type"}}
+{"k":"{\"nodeId\":32,\"commandClass\":113,\"endpoint\":0,\"property\":\"alarmLevel\"}","v":{"type":"number","readable":true,"writeable":false,"min":0,"max":255,"label":"Alarm Level"}}
+{"k":"{\"nodeId\":1,\"commandClass\":134,\"endpoint\":0,\"property\":\"zWaveProtocolVersion\"}","v":{"type":"string","readable":true,"writeable":false,"label":"Z-Wave protocol version"}}
